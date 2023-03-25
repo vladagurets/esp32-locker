@@ -3,6 +3,7 @@
 #include "CTBot.h"
 
 #include "constants.h"
+#include "secrets.h"
 
 #ifndef HELPERS_H
 #define HELPERS_H
@@ -11,7 +12,7 @@ CTBot tgBot;
 
 void setupFlashLed() {
   pinMode(FLASH_LED_PIN, OUTPUT);
-  ledcSetup(FLASH_PWM_CHANNEL, 5000, 8);
+  ledcSetup(FLASH_PWM_CHANNEL, 200, 8);
   ledcAttachPin(FLASH_LED_PIN, FLASH_PWM_CHANNEL);
 }
 
@@ -50,7 +51,7 @@ int getCurrentNumberOfWeek() {
 }
 
 int getCurrentWeekMovementsCount() {
-  return EEPROM.read(CURRENT_WEEK_MOVEMENTS_COUNT_ADDRESS);
+  return EEPROM.read(CURRENT_WEEK_OPENINGS_COUNT_ADDRESS);
 }
 
 void setCurrentNumberOfWeek(int value) {
@@ -60,7 +61,7 @@ void setCurrentNumberOfWeek(int value) {
 }
 
 void setCurrentWeekMovementsCount(int value) {
-  EEPROM.write(CURRENT_WEEK_MOVEMENTS_COUNT_ADDRESS, value);
+  EEPROM.write(CURRENT_WEEK_OPENINGS_COUNT_ADDRESS, value);
   EEPROM.commit();
   delay(100);
 }
@@ -69,8 +70,8 @@ void setupEEPROM() {
   EEPROM.begin(EEPROM_SIZE);
 
   // FOR TESTING
-  // setCurrentNumberOfWeek(0xFF);
-  // setCurrentWeekMovementsCount(0xFF);
+  setCurrentNumberOfWeek(0xFF);
+  setCurrentWeekMovementsCount(0xFF);
   //
 }
 
@@ -119,15 +120,18 @@ void initState() {
   delay(100);
   int freshWeekNumber = getFreshNumberOfCurrentWeek();
 
-  Serial.print("Current week: ");
-  Serial.println(currentWeekNumber);
-  Serial.print("Fresh week: ");
-  Serial.println(freshWeekNumber);
-
   if (currentWeekNumber != freshWeekNumber) {
+    Serial.print("Current week: ");
+    Serial.println(currentWeekNumber);
+    Serial.print("Fresh week: ");
+    Serial.println(freshWeekNumber);
+
     setCurrentNumberOfWeek(freshWeekNumber);
     setCurrentWeekMovementsCount(0);
+
     Serial.println("Current week number is updated!");
+  } else {
+    Serial.println("Fresh week number is same as current");
   }
 }
 
