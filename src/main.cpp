@@ -42,9 +42,9 @@ void setup() {
 
 void loop() {
   // a variable to store telegram message data
-	TBMessage msg;
+  TBMessage msg;
 
-	if (CTBotMessageText == tgBot.getNewMessage(msg)) {
+  if (CTBotMessageText == tgBot.getNewMessage(msg)) {
     handleMessage(msg);
   }
 
