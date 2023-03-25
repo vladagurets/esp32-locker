@@ -4,6 +4,8 @@
 const char* WIFI_SSID = "WiFi name";
 const char* WIFI_PASSWORD = "WiFi pass";
 const char* NTP_SERVER = "pool.ntp.org";
+const char* TELEGRAM_TOKEN = "your_token";
+const char* TELEGRAM_USER_ID = "your_user_id";
 
 const int FLASH_LED_PIN = 4;
 const int FLASH_PWM_CHANNEL = 0;

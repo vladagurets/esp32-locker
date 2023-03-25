@@ -1,13 +1,13 @@
 #include <time.h>
 #include <EEPROM.h>
-#include <WiFiClientSecure.h>
+#include "CTBot.h"
 
 #include "constants.h"
 
 #ifndef HELPERS_H
 #define HELPERS_H
 
-WiFiClientSecure client;
+CTBot tgBot;
 
 void setupFlashLed() {
   pinMode(FLASH_LED_PIN, OUTPUT);
@@ -15,7 +15,7 @@ void setupFlashLed() {
   ledcAttachPin(FLASH_LED_PIN, FLASH_PWM_CHANNEL);
 }
 
-void toggleFlashLed() {
+void startFlashLed() {
   int brightness;
 
   for (brightness = 0; brightness <= FLASH_LED_MAX_INTENCIVITY; brightness++) {
@@ -30,17 +30,16 @@ void toggleFlashLed() {
   }
 }
 
-void setupWiFi() {
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-
-  while (WiFi.status() != WL_CONNECTED) {
-    toggleFlashLed();
-    delay(500);
-    Serial.print("Connecting to WiFi");
-  }
-
-  Serial.println("\nWiFi connected");
+void setupTGBot() {
+  tgBot.wifiConnect(WIFI_SSID, WIFI_PASSWORD);
+	tgBot.setTelegramToken(TELEGRAM_TOKEN);
+	
+	if (tgBot.testConnection())
+		Serial.println("\ntestConnection OK");
+	else
+		Serial.println("\ntestConnection NOT OK");
 }
+
 
 void setupTime() {
   configTime(0, 0, NTP_SERVER);
@@ -99,7 +98,8 @@ int getFreshNumberOfCurrentWeek() {
   time_t now = time(nullptr);
 
   while(now < 100000) {
-    delay(100);
+    startFlashLed();
+    delay(1000);
     now = time(nullptr);
   }
 
