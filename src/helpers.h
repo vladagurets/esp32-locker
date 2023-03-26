@@ -11,9 +11,11 @@
 CTBot tgBot;
 
 void setupFlashLed() {
+  Serial.print("*Start [setupFlashLed]...");
   pinMode(FLASH_LED_PIN, OUTPUT);
   ledcSetup(FLASH_PWM_CHANNEL, 200, 8);
   ledcAttachPin(FLASH_LED_PIN, FLASH_PWM_CHANNEL);
+  Serial.print("*End [setupFlashLed]\n");
 }
 
 void startFlashLed() {
@@ -32,18 +34,21 @@ void startFlashLed() {
 }
 
 void setupTGBot() {
+  Serial.print("*Start [setupTGBot]...");
   tgBot.wifiConnect(WIFI_SSID, WIFI_PASSWORD);
-	tgBot.setTelegramToken(TELEGRAM_TOKEN);
-	
-	if (tgBot.testConnection())
-		Serial.println("\ntestConnection OK");
-	else
-		Serial.println("\ntestConnection NOT OK");
+  tgBot.setTelegramToken(TELEGRAM_TOKEN);
+
+  if (tgBot.testConnection())
+    Serial.print("*End [setupTGBot]\n");
+  else
+    Serial.print("*Error [setupTGBot]\n");
 }
 
 
 void setupTime() {
+  Serial.print("*Start [setupTime]...");
   configTime(0, 0, NTP_SERVER);
+  Serial.print("*End [setupTime]\n");
 }
 
 int getCurrentNumberOfWeek() {
@@ -67,12 +72,14 @@ void setCurrentWeekMovementsCount(int value) {
 }
 
 void setupEEPROM() {
+  Serial.print("*Start [setupEEPROM]...");
   EEPROM.begin(EEPROM_SIZE);
 
   // FOR TESTING
   setCurrentNumberOfWeek(0xFF);
   setCurrentWeekMovementsCount(0xFF);
   //
+  Serial.print("*End [setupEEPROM]\n");
 }
 
 bool isLeapYear(int year) {
@@ -116,14 +123,15 @@ int getFreshNumberOfCurrentWeek() {
 }
 
 void initState() {
+  Serial.print("*Start [initState]...\n");
   int currentWeekNumber = getCurrentNumberOfWeek();
   delay(100);
   int freshWeekNumber = getFreshNumberOfCurrentWeek();
 
   if (currentWeekNumber != freshWeekNumber) {
     Serial.print("Current week: ");
-    Serial.println(currentWeekNumber);
-    Serial.print("Fresh week: ");
+    Serial.print(currentWeekNumber);
+    Serial.print("   Fresh week: ");
     Serial.println(freshWeekNumber);
 
     setCurrentNumberOfWeek(freshWeekNumber);
@@ -133,6 +141,7 @@ void initState() {
   } else {
     Serial.println("Fresh week number is same as current");
   }
+  Serial.print("*End [initState]\n");
 }
 
 #endif

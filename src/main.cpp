@@ -31,7 +31,7 @@ void handleMessage(TBMessage msg) {
 
 void setup() {
   Serial.begin(115200);
-  // TODO: add logs for each setup
+
   setupFlashLed();
   setupEEPROM();
   setupTime();
