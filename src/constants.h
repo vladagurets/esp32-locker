@@ -10,5 +10,8 @@ const int EEPROM_SIZE = 512;
 const int NUMBER_OF_CURRENT_WEEK_ADDRESS = 0;
 const int CURRENT_WEEK_OPENINGS_COUNT_ADDRESS = 2;
 const int MAX_OPENINGS_PER_WEEK = 2;
+const int SERVO_PIN = 12;
+const int INITIAL_SERVO_ANGLE = 180;
+const int FINAL_SERVO_ANGLE = 0;
 
 #endif

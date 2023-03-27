@@ -6,6 +6,8 @@
 #include "secrets.h"
 #include "helpers.h"
 
+Servo myservo;
+
 void handleMessage(TBMessage msg) {
   if (msg.sender.id != TELEGRAM_USER_ID) {
     tgBot.sendMessage(msg.sender.id, "403: You are not supposed to do it");
@@ -22,6 +24,7 @@ void handleMessage(TBMessage msg) {
       } else {
         tgBot.sendMessage(msg.sender.id, "Opening...");
         setCurrentWeekMovementsCount(currentOpeningsCount + 1);
+        openBox();
       }
     } else {
       tgBot.sendMessage(msg.sender.id, "400: Unknown command");
@@ -32,6 +35,7 @@ void handleMessage(TBMessage msg) {
 void setup() {
   Serial.begin(115200);
 
+  setupServo();
   setupFlashLed();
   setupEEPROM();
   setupTime();

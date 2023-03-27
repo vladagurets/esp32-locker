@@ -1,6 +1,7 @@
 #include <time.h>
 #include <EEPROM.h>
 #include "CTBot.h"
+#include <ESP32Servo.h>
 
 #include "constants.h"
 #include "secrets.h"
@@ -9,6 +10,7 @@
 #define HELPERS_H
 
 CTBot tgBot;
+Servo servo;
 
 void setupFlashLed() {
   Serial.print("*Start [setupFlashLed]...");
@@ -142,6 +144,18 @@ void initState() {
     Serial.println("Fresh week number is same as current");
   }
   Serial.print("*End [initState]\n");
+}
+
+void setupServo() {
+  servo.attach(SERVO_PIN);
+  servo.write(INITIAL_SERVO_ANGLE);
+  delay(1000);
+}
+
+void openBox() {
+  servo.write(FINAL_SERVO_ANGLE);
+  delay(1000);
+  ledcWrite(FLASH_PWM_CHANNEL, 0);
 }
 
 #endif
