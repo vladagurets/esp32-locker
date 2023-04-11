@@ -78,8 +78,8 @@ void setupEEPROM() {
   EEPROM.begin(EEPROM_SIZE);
 
   // FOR TESTING
-  setCurrentNumberOfWeek(0xFF);
-  setCurrentWeekMovementsCount(0xFF);
+  // setCurrentNumberOfWeek(0xFF);
+  // setCurrentWeekMovementsCount(0xFF);
   //
   Serial.print("*End [setupEEPROM]\n");
 }
