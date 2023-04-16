@@ -12,6 +12,8 @@
 CTBot tgBot;
 Servo servo;
 
+time_t now = time(NULL);
+
 void setupFlashLed() {
   Serial.print("*Start [setupFlashLed]...");
   pinMode(FLASH_LED_PIN, OUTPUT);
@@ -44,6 +46,8 @@ void setupTGBot() {
     Serial.print("*End [setupTGBot]\n");
   else
     Serial.print("*Error [setupTGBot]\n");
+
+  delay(3000);
 }
 
 
@@ -104,24 +108,19 @@ bool isLeapYear(int year) {
 }
 
 int getFreshNumberOfCurrentWeek() {
-  // Get current time as Unix timestamp
-  time_t now = time(nullptr);
-
+  // For unknown reason first time we get time it's always from 1 to 10
+  // So we need to make some additional same requests to get correct time
   while(now < 100000) {
     startFlashLed();
     delay(1000);
-    now = time(nullptr);
+    now = time(NULL);
   }
 
-  // Convert Unix timestamp to struct tm object in UTC
-  struct tm tm_now;
-  gmtime_r(&now, &tm_now);
-  
-  // Calculate number of current week
-  int yday = 365 + isLeapYear(tm_now.tm_year + 1900);
-  int week = ((tm_now.tm_yday - yday) / 7) + 1;
-  
-  return abs(week);
+  struct tm* timeinfo = gmtime(&now);
+  int day_of_year = timeinfo->tm_yday;
+  int week_number = (day_of_year / 7) + 1;
+
+  return week_number;
 }
 
 void initState() {

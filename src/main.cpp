@@ -18,6 +18,12 @@ void handleMessage(TBMessage msg) {
   if (msg.messageType == CTBotMessageText) {
     if (msg.text == OPEN_COMMAND_TEXT) {
       int currentOpeningsCount = getCurrentWeekMovementsCount();
+      int msgAge = (int)difftime(now, msg.date);
+
+      if (msgAge > MAX_MESSAGE_AGE) {
+        tgBot.sendMessage(msg.sender.id, "/open command is too old");
+        return;
+      }
 
       if (currentOpeningsCount == MAX_OPENINGS_PER_WEEK) {
         tgBot.sendMessage(msg.sender.id, "Weekly limit exceeded...");
@@ -38,14 +44,13 @@ void setup() {
   setupServo();
   setupFlashLed();
   setupEEPROM();
-  setupTime();
   setupTGBot();
+  setupTime();
 
   initState();
 }
 
 void loop() {
-  // a variable to store telegram message data
   TBMessage msg;
 
   if (CTBotMessageText == tgBot.getNewMessage(msg)) {
