@@ -21,7 +21,7 @@ void handleMessage(TBMessage msg) {
       int msgAge = (int)difftime(now, msg.date);
 
       if (msgAge > MAX_MESSAGE_AGE) {
-        tgBot.sendMessage(msg.sender.id, "/open command is too old");
+        tgBot.sendMessage(msg.sender.id, "410: command is too old");
         return;
       }
 
