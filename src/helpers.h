@@ -88,25 +88,6 @@ void setupEEPROM() {
   Serial.print("*End [setupEEPROM]\n");
 }
 
-bool isLeapYear(int year) {
-  if (year % 4 == 0) {
-    if (year % 100 == 0) {
-      if (year % 400 == 0) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-    else {
-      return true;
-    }
-  }
-  else {
-    return false;
-  }
-}
-
 int getFreshNumberOfCurrentWeek() {
   // For unknown reason first time we get time it's always from 1 to 10
   // So we need to make some additional same requests to get correct time
@@ -117,10 +98,10 @@ int getFreshNumberOfCurrentWeek() {
   }
 
   struct tm* timeinfo = gmtime(&now);
-  int day_of_year = timeinfo->tm_yday;
-  int week_number = (day_of_year / 7) + 1;
+  int dayOfYear = timeinfo->tm_yday;
+  int weekNumber = (dayOfYear / 7) + 1;
 
-  return week_number;
+  return weekNumber;
 }
 
 void initState() {
@@ -140,7 +121,8 @@ void initState() {
 
     Serial.println("Current week number is updated!");
   } else {
-    Serial.println("Fresh week number is same as current");
+    Serial.print("Fresh week number is same as current: ");
+    Serial.println(currentWeekNumber);
   }
   Serial.print("*End [initState]\n");
 }
