@@ -14,5 +14,6 @@ const int MAX_MESSAGE_AGE = 60; // in seconds
 const int MAX_OPENINGS_PER_WEEK = 2;
 const int NUMBER_OF_CURRENT_WEEK_ADDRESS = 0;
 const int SERVO_PIN = 12;
+const int WEEK_START_OFFSET_IN_DAYS = 5; // By default, week starts on Monday
 
 #endif

@@ -96,10 +96,16 @@ int getFreshNumberOfCurrentWeek() {
     delay(1000);
     now = time(NULL);
   }
-
+  
   struct tm* timeinfo = gmtime(&now);
   int dayOfYear = timeinfo->tm_yday;
-  int weekNumber = (dayOfYear / 7) + 1;
+  int dayOfYearWithOffset = dayOfYear + WEEK_START_OFFSET_IN_DAYS;
+
+  if (dayOfYearWithOffset > 365) {
+    dayOfYearWithOffset = dayOfYearWithOffset - 365;
+  }
+
+  int weekNumber = (dayOfYearWithOffset / 7) + 1;
 
   return weekNumber;
 }
