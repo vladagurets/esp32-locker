@@ -19,7 +19,7 @@ void setupFlashLed() {
   pinMode(FLASH_LED_PIN, OUTPUT);
   ledcSetup(FLASH_PWM_CHANNEL, 200, 8);
   ledcAttachPin(FLASH_LED_PIN, FLASH_PWM_CHANNEL);
-  Serial.print("*End [setupFlashLed]\n");
+  Serial.print("End [setupFlashLed]\n");
 }
 
 void startFlashLed() {
@@ -43,7 +43,7 @@ void setupTGBot() {
   tgBot.setTelegramToken(TELEGRAM_TOKEN);
 
   if (tgBot.testConnection())
-    Serial.print("*End [setupTGBot]\n");
+    Serial.print("End [setupTGBot]\n");
   else
     Serial.print("*Error [setupTGBot]\n");
 
@@ -54,7 +54,7 @@ void setupTGBot() {
 void setupTime() {
   Serial.print("*Start [setupTime]...");
   configTime(0, 0, NTP_SERVER);
-  Serial.print("*End [setupTime]\n");
+  Serial.print("End [setupTime]\n");
 }
 
 int getCurrentNumberOfWeek() {
@@ -83,9 +83,10 @@ void setupEEPROM() {
 
   // FOR TESTING
   // setCurrentNumberOfWeek(0xFF);
+  // setCurrentNumberOfDay(0xFF);
   // setCurrentWeekMovementsCount(0xFF);
   //
-  Serial.print("*End [setupEEPROM]\n");
+  Serial.print("End [setupEEPROM]\n");
 }
 
 int getFreshNumberOfCurrentWeek() {
@@ -99,15 +100,32 @@ int getFreshNumberOfCurrentWeek() {
   
   struct tm* timeinfo = gmtime(&now);
   int dayOfYear = timeinfo->tm_yday;
-  int dayOfYearWithOffset = dayOfYear + WEEK_START_OFFSET_IN_DAYS;
-
-  if (dayOfYearWithOffset > 365) {
-    dayOfYearWithOffset = dayOfYearWithOffset - 365;
-  }
-
-  int weekNumber = (dayOfYearWithOffset / 7) + 1;
+  int weekNumber = (dayOfYear / 7) + 1;
 
   return weekNumber;
+}
+
+bool isDayToReset() {
+  struct tm* timeinfo = gmtime(&now);
+  int dayOfWeek = timeinfo->tm_wday;
+
+  return dayOfWeek == DAY_OF_WEEK_TO_RESET;
+}
+
+int getNextResetDayTimestamp() {
+  struct tm* timeinfo = gmtime(&now);
+  int dayOfWeek = timeinfo->tm_wday;
+  int daysToResetDay = abs(dayOfWeek - DAY_OF_WEEK_TO_RESET + (dayOfWeek > DAY_OF_WEEK_TO_RESET ? -7 : 0));
+  int secondsToResetDay = daysToResetDay * 24 * 60 * 60;
+
+  return now + secondsToResetDay;
+}
+
+char* convertTiemstampToHumanReadable(int timestamp) {
+  time_t timeGMT = (time_t)timestamp;
+  struct tm* timeinfo = gmtime(&timeGMT);
+  char* timeString = asctime(timeinfo);
+  return timeString;
 }
 
 void initState() {
@@ -116,7 +134,7 @@ void initState() {
   delay(100);
   int freshWeekNumber = getFreshNumberOfCurrentWeek();
 
-  if (currentWeekNumber != freshWeekNumber) {
+  if (freshWeekNumber != currentWeekNumber && isDayToReset()) {
     Serial.print("Current week: ");
     Serial.print(currentWeekNumber);
     Serial.print("   Fresh week: ");
@@ -130,7 +148,8 @@ void initState() {
     Serial.print("Fresh week number is same as current: ");
     Serial.println(currentWeekNumber);
   }
-  Serial.print("*End [initState]\n");
+
+  Serial.print("End [initState]\n");
 }
 
 void setupServo() {
