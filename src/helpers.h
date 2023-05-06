@@ -125,6 +125,10 @@ char* convertTiemstampToHumanReadable(int timestamp) {
   time_t timeGMT = (time_t)timestamp;
   struct tm* timeinfo = gmtime(&timeGMT);
   char* timeString = asctime(timeinfo);
+
+  Serial.print("Reset date is  ");
+  Serial.println(timeString);
+
   return timeString;
 }
 

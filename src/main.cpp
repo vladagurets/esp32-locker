@@ -29,8 +29,6 @@ void handleMessage(TBMessage msg) {
       int resetDayTimestamp = getNextResetDayTimestamp();
       char* resetDayDate = convertTiemstampToHumanReadable(resetDayTimestamp);
 
-      Serial.println(resetDayDate);
-
       tgBot.sendMessage(msg.sender.id, resetDayDate);
 
       return;
