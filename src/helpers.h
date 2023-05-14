@@ -105,11 +105,11 @@ int getFreshNumberOfCurrentWeek() {
   return weekNumber;
 }
 
-bool isDayToReset() {
+bool isMoreOrEqualDayToReset() {
   struct tm* timeinfo = gmtime(&now);
   int dayOfWeek = timeinfo->tm_wday;
 
-  return dayOfWeek == DAY_OF_WEEK_TO_RESET;
+  return dayOfWeek >= DAY_OF_WEEK_TO_RESET;
 }
 
 int getNextResetDayTimestamp() {
@@ -138,7 +138,7 @@ void initState() {
   delay(100);
   int freshWeekNumber = getFreshNumberOfCurrentWeek();
 
-  if (freshWeekNumber != currentWeekNumber && isDayToReset()) {
+  if (freshWeekNumber != currentWeekNumber && isMoreOrEqualDayToReset()) {
     Serial.print("Current week: ");
     Serial.print(currentWeekNumber);
     Serial.print("   Fresh week: ");
