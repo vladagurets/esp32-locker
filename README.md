@@ -5,10 +5,9 @@ This is a pet project to deal with ESP32 chip and IoT.
 Main motivation is to build a small locker box with an ability to controll it over Telegram bot.
 Current implementation allows to open box several times per each week (2 times by default).
 
-<center>
-  ![](https://github.com/vladagurets/esp32-locker/blob/4ab30ffc79d8b0c32eb4d41725bfebebb31ced1b/public/locker.png)
-  ![Treasury locker](https://github.com/vladagurets/esp32-locker/blob/main/public/locker.png?raw=true)
-</center>
+<p align="center">
+  <img alt="Treasury locker" src="https://raw.githubusercontent.com/vladagurets/esp32-locker/main/public/locker.png?raw=true" />
+</p>
 
 To achieve rusults I took the following components:
 * [ESP32](https://www.espressif.com/en/products/hardware/esp32/overview) module
