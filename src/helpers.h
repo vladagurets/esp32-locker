@@ -83,8 +83,7 @@ void setupEEPROM() {
 
   // FOR TESTING
   // setCurrentNumberOfWeek(0xFF);
-  // setCurrentNumberOfDay(0xFF);
-  // setCurrentWeekMovementsCount(0xFF);
+  // setCurrentWeekMovementsCount(1);
   //
   Serial.print("End [setupEEPROM]\n");
 }
