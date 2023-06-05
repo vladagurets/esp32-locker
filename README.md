@@ -21,4 +21,9 @@ Pre-conditions:
 - Burn ESP32
 - Find your bot in Telegramm app and start chatting
 
+How to use configured locker?
+- Connect locker to power
+- Wait for connection is established
+- Use Telegram bot to interract with locker
+
 As result you will be able to open your cascet `n` times per week (initially week starts on Friday and ends on Thursday, you can play with configs in `./src/constants.h`)
