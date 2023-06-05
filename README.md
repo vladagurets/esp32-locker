@@ -6,7 +6,8 @@ Main motivation is to build a small locker box with an ability to controll it ov
 Current implementation allows to open box several times per each week (2 times by default).
 
 <center>
-  ![Treasury locker](https://github.com/vladagurets/esp32-locker/blob/4ab30ffc79d8b0c32eb4d41725bfebebb31ced1b/public/locker.png)
+  ![](https://github.com/vladagurets/esp32-locker/blob/4ab30ffc79d8b0c32eb4d41725bfebebb31ced1b/public/locker.png)
+  ![Treasury locker](https://github.com/vladagurets/esp32-locker/blob/main/public/locker.png?raw=true)
 </center>
 
 To achieve rusults I took the following components:
